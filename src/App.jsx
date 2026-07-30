@@ -2,20 +2,48 @@ import { brands, categories, company, questions, steps, whatsapp } from './data.
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`
 const brochure = asset('assets/docs/catalogo-magper-2024.pdf')
+const githubPagesDemo = import.meta.env.VITE_GITHUB_PAGES === 'true'
+
+function CommercialLink({ children, href, rel, target, ...props }) {
+  if (githubPagesDemo) {
+    return (
+      <span
+        {...props}
+        className={`${props.className ?? ''} commercial-link`.trim()}
+        role="link"
+        aria-disabled="true"
+        title="Disponible únicamente en la versión comercial"
+      >
+        {children}
+      </span>
+    )
+  }
+
+  return (
+    <a href={href} rel={rel} target={target} {...props}>
+      {children}
+    </a>
+  )
+}
 
 function Header() {
   return (
     <header className="site-header">
+      {githubPagesDemo && (
+        <div className="demo-notice" role="note">
+          Vista demostrativa: los botones comerciales están deshabilitados.
+        </div>
+      )}
       <div className="utility-bar">
         <div className="shell utility-bar__inner">
-          <a href={`mailto:${company.email}`}>{company.email}</a>
-          <a
+          <CommercialLink href={`mailto:${company.email}`}>{company.email}</CommercialLink>
+          <CommercialLink
             href={whatsapp('Hola MAGPER, quiero realizar una consulta.')}
             target="_blank"
             rel="noreferrer"
           >
             {company.phone}
-          </a>
+          </CommercialLink>
           <a href={company.mapUrl} target="_blank" rel="noreferrer">
             Los Olivos, Lima
           </a>
@@ -43,14 +71,14 @@ function Header() {
             <a href="#contacto">Contacto</a>
           </nav>
 
-          <a
+          <CommercialLink
             className="button button--primary nav-cta"
             href={whatsapp('Hola MAGPER, quiero cotizar suministros industriales.')}
             target="_blank"
             rel="noreferrer"
           >
             Cotizar por WhatsApp
-          </a>
+          </CommercialLink>
 
           <details className="mobile-menu">
             <summary>Menú</summary>
@@ -81,7 +109,7 @@ function Hero() {
               cotizar.
             </p>
             <div className="hero__actions">
-              <a
+              <CommercialLink
                 className="button button--primary button--large"
                 href={whatsapp(
                   'Hola MAGPER, necesito ayuda con un requerimiento industrial.',
@@ -90,7 +118,7 @@ function Hero() {
                 rel="noreferrer"
               >
                 Enviar mi requerimiento
-              </a>
+              </CommercialLink>
               <a className="button button--outline button--large" href="#categorias">
                 Explorar categorías
               </a>
@@ -174,14 +202,14 @@ function Categories() {
                   <strong>Para preparar tu consulta</strong>
                   <p>{category.guidance}</p>
                 </aside>
-                <a
+                <CommercialLink
                   className="category-feature__link"
                   href={whatsapp(`Hola MAGPER, quiero consultar por ${category.name}.`)}
                   target="_blank"
                   rel="noreferrer"
                 >
                   Consultar esta categoría
-                </a>
+                </CommercialLink>
               </div>
             </article>
           ))}
@@ -192,14 +220,14 @@ function Categories() {
             <p className="eyebrow">¿Tu requerimiento combina varias categorías?</p>
             <h3>Envíalo completo y MAGPER lo revisará contigo.</h3>
           </div>
-          <a
+          <CommercialLink
             className="button button--primary"
             href={whatsapp('Hola MAGPER, tengo un requerimiento con varias categorías.')}
             target="_blank"
             rel="noreferrer"
           >
             Consultar por WhatsApp
-          </a>
+          </CommercialLink>
         </div>
       </div>
     </section>
@@ -217,14 +245,14 @@ function Process() {
             La landing evita formularios extensos: el proceso comienza en el canal que ya usas para
             coordinar con tu equipo.
           </p>
-          <a
+          <CommercialLink
             className="text-link"
             href={whatsapp('Hola MAGPER, quiero iniciar una cotización.')}
             target="_blank"
             rel="noreferrer"
           >
             Iniciar cotización
-          </a>
+          </CommercialLink>
         </div>
         <ol className="process-list">
           {steps.map((step, index) => (
@@ -300,16 +328,16 @@ function FinalCta() {
           </p>
         </div>
         <div className="final-cta__actions">
-          <a
+          <CommercialLink
             className="button button--light button--large"
             href={whatsapp('Hola MAGPER, quiero cotizar un requerimiento industrial.')}
             target="_blank"
             rel="noreferrer"
           >
             Cotizar por WhatsApp
-          </a>
+          </CommercialLink>
           <p className="final-cta__phone">
-            O llama al <a href={company.phoneHref}>{company.phone}</a>
+            O llama al <CommercialLink href={company.phoneHref}>{company.phone}</CommercialLink>
           </p>
         </div>
       </div>
@@ -338,9 +366,9 @@ function Footer() {
             <br />
             {company.district}
             <br />
-            <a href={company.phoneHref}>{company.phone}</a>
+            <CommercialLink href={company.phoneHref}>{company.phone}</CommercialLink>
             <br />
-            <a href={`mailto:${company.email}`}>{company.email}</a>
+            <CommercialLink href={`mailto:${company.email}`}>{company.email}</CommercialLink>
           </address>
         </div>
         <div>

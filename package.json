@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "VITE_GITHUB_PAGES=true vite build && node scripts/check-pages-build.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

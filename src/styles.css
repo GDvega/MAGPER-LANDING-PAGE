@@ -20,12 +20,14 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 112px;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   color: var(--graphite);
   background: var(--white);
   font-family: var(--font-body);
@@ -81,6 +83,25 @@ summary {
   top: 0;
   z-index: 20;
   box-shadow: 0 1px 0 rgb(4 31 53 / 12%);
+}
+
+.demo-notice {
+  min-height: 34px;
+  padding: 0.4rem 1rem;
+  color: var(--navy-950);
+  background: #ffd86b;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.commercial-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.commercial-link.button[aria-disabled="true"]:hover {
+  box-shadow: none;
 }
 
 .utility-bar {
